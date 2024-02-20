@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import numpy as np
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
@@ -8,7 +9,7 @@ register_matplotlib_converters()
 df = pd.read_csv('fcc-forum-pageviews.csv', parse_dates=['date'], index_col=['date'])
 
 # Clean data
-df = df[df['value'].between(df['value'].quantile(.025), df['value'].quantile(.095))]
+df = df[df['value'].between(df['value'].quantile(.025), df['value'].quantile(.975))]
 months = ['January','February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November','December']
 
 def draw_line_plot():
@@ -63,7 +64,7 @@ def draw_box_plot():
     ax[0].set(xlabel='Year',ylabel='Page Views')
     sns.boxplot(data=df_box, x='month', y ='value', ax = ax[1], palette='pastel').set_title('Month-wise Box Plot (Seasonality)')
     ax[1].set(xlabel='Month',ylabel='Page Views')
-
+    
 
 
     # Save image and return fig (don't change this part)
